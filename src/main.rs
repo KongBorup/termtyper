@@ -3,7 +3,7 @@ use std::io::stdout;
 mod app;
 mod typer;
 
-const TEXT: &str = "Life is not suffering; it's just that you will suffer it, rather than enjoy it, until you let go of your mind's attachments and just go for the ride freely, no matter what happens.";
+const TEXT: &str = "It is easy to kill with a bow, girl. How easy it is to release the bowstring and think, it is not I, it is the arrow. The blood of that boy is not on my hands. The arrow killed him, not I. But the arrow does not dream anything in the night.";
 
 fn main() -> crossterm::Result<()> {
     let output = &mut stdout();
