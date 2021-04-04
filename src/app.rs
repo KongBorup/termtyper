@@ -52,6 +52,15 @@ pub fn run<W: Write>(output: &mut W, input: String) -> crossterm::Result<()> {
         queue!(
             output,
             SetForegroundColor(Color::White),
+            style::Print(format!("{:.0} wpm", typer.wpm().round())),
+            MoveToNextLine(1),
+            style::Print(format!("{:.1}% acc", typer.accuracy() * 100.0)),
+            MoveToNextLine(2),
+        )?;
+
+        queue!(
+            output,
+            SetForegroundColor(Color::White),
             style::Print(INFO),
             MoveToNextLine(1)
         )?;

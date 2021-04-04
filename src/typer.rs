@@ -1,10 +1,13 @@
-use std::{collections::LinkedList, iter::FromIterator};
+use std::{collections::LinkedList, iter::FromIterator, time::Instant};
 
 pub struct Typer {
     typed_chars: LinkedList<char>,
     correct: LinkedList<char>,
     incorrect: LinkedList<char>,
     missing: LinkedList<char>,
+    start: Instant,
+    num_typed: usize,
+    num_misses: usize,
 }
 
 impl Typer {
@@ -14,6 +17,9 @@ impl Typer {
             correct: LinkedList::new(),
             incorrect: LinkedList::new(),
             missing: LinkedList::from_iter(inp.chars()),
+            start: Instant::now(),
+            num_typed: 0,
+            num_misses: 0,
         }
     }
 
@@ -35,6 +41,7 @@ impl Typer {
 
     pub fn write(&mut self, c: char) -> () {
         self.typed_chars.push_back(c);
+        self.num_typed += 1;
 
         if self.missing.is_empty() {
             return;
@@ -46,6 +53,7 @@ impl Typer {
             self.correct.push_back(next);
         } else {
             self.incorrect.push_back(next);
+            self.num_misses += 1;
         }
     }
 
@@ -73,5 +81,32 @@ impl Typer {
 
     pub fn is_finished(&self) -> bool {
         self.correct.len() == self.inp_len()
+    }
+
+    pub fn elapsed_secs(&self) -> f64 {
+        self.start.elapsed().as_secs_f64()
+    }
+
+    pub fn wpm(&self) -> f64 {
+        let num_words = self
+            .get_correct()
+            .split_ascii_whitespace()
+            .collect::<Vec<_>>()
+            .len();
+
+        let elapsed_secs = self.elapsed_secs();
+        if elapsed_secs == 0.0 {
+            0.0
+        } else {
+            num_words as f64 / (elapsed_secs / 60.0)
+        }
+    }
+
+    pub fn accuracy(&self) -> f64 {
+        1.0 - if self.num_misses == 0 {
+            0.0
+        } else {
+            self.num_misses as f64 / self.num_typed as f64
+        }
     }
 }
