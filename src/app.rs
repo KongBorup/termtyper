@@ -14,7 +14,6 @@ pub fn run<W: Write>(output: &mut W, input: String) -> crossterm::Result<()> {
     let mut typer = typer::Typer::new(input);
 
     enable_raw_mode()?;
-    execute!(output, MoveTo(0, 5), cursor::Hide)?;
 
     loop {
         queue!(
