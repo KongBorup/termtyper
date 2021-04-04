@@ -87,6 +87,20 @@ impl Typer {
         self.start.elapsed().as_secs_f64()
     }
 
+    pub fn elapsed_time_string(&self) -> String {
+        let elapsed_secs = self.elapsed_secs().floor() as usize;
+        let mins = elapsed_secs / 60;
+        let secs = elapsed_secs % 60;
+
+        format!(
+            "{}{}:{}{}",
+            if mins < 10 { "0" } else { "" },
+            mins,
+            if secs < 10 { "0" } else { "" },
+            secs,
+        )
+    }
+
     pub fn wpm(&self) -> f64 {
         let num_words = self
             .get_correct()

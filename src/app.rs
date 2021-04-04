@@ -55,6 +55,8 @@ pub fn run<W: Write>(output: &mut W, input: String) -> crossterm::Result<()> {
             style::Print(format!("{:.0} wpm", typer.wpm().round())),
             MoveToNextLine(1),
             style::Print(format!("{:.1}% acc", typer.accuracy() * 100.0)),
+            MoveToNextLine(1),
+            style::Print(typer.elapsed_time_string()),
             MoveToNextLine(2),
         )?;
 
