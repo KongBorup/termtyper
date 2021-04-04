@@ -3,7 +3,7 @@ use crossterm::{
     cursor::{self, MoveTo, MoveToNextLine},
     event::{self, Event, KeyCode},
     execute, queue,
-    style::{self, Color, SetForegroundColor},
+    style::{self, Color, Colors, SetColors, SetForegroundColor},
     terminal::{self, disable_raw_mode, enable_raw_mode, ClearType},
 };
 use std::io::Write;
@@ -29,8 +29,9 @@ pub fn run<W: Write>(output: &mut W, input: String) -> crossterm::Result<()> {
             output,
             SetForegroundColor(Color::Green),
             style::Print(typer.get_correct()),
-            SetForegroundColor(Color::Red),
+            SetColors(Colors::new(Color::Black, Color::Red)),
             style::Print(typer.get_incorrect()),
+            style::ResetColor,
             SetForegroundColor(Color::White),
             style::Print(typer.get_missing()),
             MoveToNextLine(2),
