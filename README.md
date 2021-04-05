@@ -2,7 +2,7 @@
 A command line program to practice your typing skills. Provided a piece of text to transcribe, you can see your WPM, accuracy and time taken.
 
 ## Demo
-![](https://s4.gifyu.com/images/demo96b6f0216f101ec6.md.gif)
+<p align="center"><img width="460" height="300" src="imgs/demo.gif"></p>
 
 ## Installation
 The project is written in Rust, so you'll need `cargo` in order to run it.
