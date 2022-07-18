@@ -1,12 +1,36 @@
 use std::io::stdout;
+use std::io::prelude::*;
+use std::fs::File;
+use rand::thread_rng;
+use rand::Rng;
 
 mod app;
 mod typer;
 
-const TEXT: &str = "It is easy to kill with a bow, girl. How easy it is to release the bowstring and think, it is not I, it is the arrow. The blood of that boy is not on my hands. The arrow killed him, not I. But the arrow does not dream anything in the night.";
+fn get_rand_word(words: Option<&str>) -> String{
+    match words{
+        Some(c) => c.to_string(),
+        None => "None".to_string()
+    }
+}
+
 
 fn main() -> crossterm::Result<()> {
+    let mut rng = thread_rng();
+    let y: usize = rng.gen_range(0..102401);
+
+    let mut file = File::open("/usr/share/dict/american-english").expect("Unable to open the file");
+    let mut contents = String::new();
+    file.read_to_string(&mut contents).expect("Unable to read the file");
+    let words_arr: Vec<&str> = contents.split("\n").collect();
+    let words = words_arr.into_iter().nth(y);
+
+    println!("{:?}",get_rand_word(words));
+
+    let text = get_rand_word(words);
+
+
     let output = &mut stdout();
-    app::run(output, String::from(TEXT))?;
+    app::run(output, text);
     Ok(())
 }
